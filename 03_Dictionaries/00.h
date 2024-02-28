@@ -83,7 +83,13 @@ void insert(Dict D, int elem){
 	
 	LIST temp = NULL;
 	temp = (LIST)malloc(sizeof(struct node));
-	if(temp != NULL && (*trav) != NULL &&(*trav)->elem != elem){
+	
+	//condition 1 to check malloc
+	//condition 2 to check if reached the end of the list
+	//c 2 also checks to 
+	if(temp != NULL && //check malloc
+		(*trav == NULL ||
+		(*trav)->elem != elem)){
 		temp->elem = elem;
 		temp->link = *trav;
 		*trav = temp;
