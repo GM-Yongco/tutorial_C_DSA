@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX 10
 typedef struct node{
@@ -74,6 +75,15 @@ int hash(int elem){
 // =======================================================================
 // CORE FUNCTIONS 2
 // =======================================================================
+
+LIST* ppn_trav_to_elem(LIST* START, int elem){
+	//if elem is not found, will return the address of the last link
+	LIST* trav;
+	for(trav = START; 
+		*trav != NULL && (*trav)->elem < elem; 
+		trav = &((*trav)->link)){}
+	return trav;
+}
 
 void insert(Dict D, int elem){
 	LIST* trav;
