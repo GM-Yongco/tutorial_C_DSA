@@ -1,0 +1,2 @@
+meaning those sets that can union, intersection, and difference
+or is generally used for those things anyways
