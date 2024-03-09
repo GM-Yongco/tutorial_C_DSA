@@ -10,7 +10,8 @@
 
 //#include "00.h"	//template thingy
 // #include "comp_word.h"
-#include "LL_unsorted.h"
+// #include "LL_unsorted.h"
+#include "array_unsorted.h"
 
 // =======================================================================
 // MAIN
@@ -25,10 +26,6 @@ int main(){
 	initialize(&A);
 	initialize(&B);
 	initialize(&C);
-
-	// SET A = 7; 	00000111
-	// SET B = 24;	00011000
-	// SET C = 24;	00011111
 	
 	separator("DISPLAYING EMPTY SETS");
 	display_raw(A);
@@ -47,6 +44,10 @@ int main(){
 	SET_add(&C, 2);
 	SET_add(&C, 3);
 	SET_add(&C, 4);
+
+	// SET A = 7; 	00000111
+	// SET B = 24;	00011000
+	// SET C = 24;	00011111
 
 	display_raw(A);
 	display_formatted(A);
