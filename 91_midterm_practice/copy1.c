@@ -158,9 +158,8 @@ void displayCloseDict(closeDic CD);
  	openDic OD = convertToOpenDict(&CS);
 	
  	//Function Calls for Problem #3
- 	
-	displaySet(CS);
  	displayOpenDict(OD);
+	displaySet(CS);
 
 /*---------------------------------------------------------------------------------
  * 	Problem #4 ::  1) Perform 3 delete operations on the Open Hash Dictionary     *
@@ -174,13 +173,10 @@ void displayCloseDict(closeDic CD);
     char delete02[] = "1358";    
 	char delete03[] = "1601";
 	
+ 
 //Function Calls for Problem #4	    
-    deleteDict(&OD, delete01);
-    deleteDict(&OD, delete02);
-    deleteDict(&OD, delete03);
     
- 	displayOpenDict(OD);
-	displayVHeap(VH);
+    
 
 /*------------------------------------------------------------------------------------
  * 	Problem #5 :: 1) Converts the Open Hash Dictionary into a Closed Hash Dictionary *
@@ -304,14 +300,11 @@ void insertSorted(cursorSet *A, product P)
 			&& strcmp(A->VHptr->VH_node[*trav].elem.prodID, P.prodID) < 0  ;
 			trav = &(A->VHptr->VH_node[*trav].next) ){}
  		
- 		if(strcmp(A->VHptr->VH_node[*trav].elem.prodID, P.prodID) != 0){
- 			A->VHptr->VH_node[temp].next = *trav;
-	 		*trav = temp;
-	 		
-	 		A->count++;
-		}
-		
-		displayVHeap(*(A->VHptr));
+ 		
+ 		A->VHptr->VH_node[temp].next = *trav;
+ 		*trav = temp;
+ 		
+ 		A->count++;
 	}
 }
 
@@ -352,52 +345,18 @@ void populateSet(cursorSet *A)
  ************************************************************/
 int openHash(char * prodID)               
 { 
-    return (prodID[3] - '0')%OPEN_DSIZE;
+    
 }
 
 
 openDic initOpenDict(VHeap *VH)
 {
-	openDic ret;
-	int i;
-	for(i = 0; i<OPEN_DSIZE; i++){
-		ret.header[i] = -1;
-	}
-	ret.count = 0;
-	ret.dicVHptr = VH;
-	
-	return ret;
+ 
 }
 
 openDic convertToOpenDict(cursorSet *A)
 {
-	openDic ret = initOpenDict(A->VHptr);
-	
-	int TS = A->elemIndex; //trav set
-	int TSO; //trav set old
-	int* TD; //trav dict
-	int hash;
-	
-	while(TS != -1){
-		TSO = TS;
-		TS = A->VHptr->VH_node[TS].next;
-		
-		//insert at the end of the dict thingy
-		hash = openHash(A->VHptr->VH_node[TSO].elem.prodID);
-		A->VHptr->VH_node[TSO].next = -1;
-		
-		for(TD = &(ret.header[hash]); 
-			*TD != -1; 
-			TD = &(ret.dicVHptr->VH_node[*TD].next)){}
-		
-		*TD = TSO;
-		ret.count++;
-		
-		A->count = 0;
-		A->elemIndex = -1;
-	}
-	
-	return ret;
+	 
 }
 
 
@@ -415,16 +374,7 @@ void displayOpenDict(openDic D)
 	printf("\n%-7s%15s", "------","----------");
 	
 	//Write your code here
-	int TH; //trav head
-	int TL; // trav list
-	for(TH = 0; TH < OPEN_DSIZE; TH++){
-		for(TL = D.header[TH];
-			TL != -1;
-			TL = D.dicVHptr->VH_node[TL].next){
-			
-			printf("\n%-7d%15s", TH, D.dicVHptr->VH_node[TL].elem.prodID);
-		}
-	}
+	
 
     printf("\n\n"); system("Pause");	
 }
@@ -435,26 +385,12 @@ void displayOpenDict(openDic D)
  ************************************************************/
 void freeInVHeap(VHeap *VH, int ndx)
 {
-	VH->VH_node[ndx].next = VH->avail;
-	VH->avail = ndx;
+	 
 }
 
 void deleteDict(openDic *D, char *IDen)
 {
-	int hash = openHash(IDen);
-	
-	int* trav;
-	for(trav = &(D->header[hash]); 
-		*trav != -1
-		&& strcmp(D->dicVHptr->VH_node[*trav].elem.prodID, IDen) == 0;
-		trav = &(D->dicVHptr->VH_node[*trav].next)){}
-		
-	if(*trav != -1){
-		int temp = *trav;
-		*trav = D->dicVHptr->VH_node[*trav].next;
-		freeInVHeap(D->dicVHptr,temp);
-		D->count--;
-	}
+ 
 }
 
 

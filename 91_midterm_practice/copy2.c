@@ -18,7 +18,7 @@ typedef struct {
 	char name[24];          // Chocolate name  
  	int  weight;            // Chocolate weight in grams  
 }chocoDesc;
- 
+
 typedef struct {
    char prodID[8];          //  product ID uniquely identifies the products; EMPTY or DELETED   
   	chocoDesc prodDesc;     //  product description 
@@ -125,13 +125,9 @@ void displayCloseDict(closeDic CD);
  	printf("\n------------");
  	//Declare variables needed for Problem #1
  	VHeap VH;
-	cursorSet CS;
+	init
  	//Function Calls for Problem #1
-	initVHeap(&VH);
-	CS = initCursorSet(&VH);
 	
-	displayVHeap(VH);
-	displaySet(CS);
 
 /*---------------------------------------------------------------------------------
  * 	Problem #2 ::  1) Populates the Cursor set which is sorted in ascending order *
@@ -143,9 +139,6 @@ void displayCloseDict(closeDic CD);
 	//Declare variables needed for Problem #2
 	
  	//Function Calls for Problem #2
- 	
-	populateSet(&CS);
-	displaySet(CS);
 
 /*---------------------------------------------------------------------------------
  * 	Problem #3 ::  1) Converts the Cursor set into an Open Hash Dictionary        *      
@@ -155,12 +148,10 @@ void displayCloseDict(closeDic CD);
 	printf("\n\n\nProblem #3:: "); 
  	printf("\n------------");
 	//Declare variables needed for Problem #3
- 	openDic OD = convertToOpenDict(&CS);
+ 	  
 	
  	//Function Calls for Problem #3
- 	
-	displaySet(CS);
- 	displayOpenDict(OD);
+ 
 
 /*---------------------------------------------------------------------------------
  * 	Problem #4 ::  1) Perform 3 delete operations on the Open Hash Dictionary     *
@@ -174,13 +165,10 @@ void displayCloseDict(closeDic CD);
     char delete02[] = "1358";    
 	char delete03[] = "1601";
 	
+ 
 //Function Calls for Problem #4	    
-    deleteDict(&OD, delete01);
-    deleteDict(&OD, delete02);
-    deleteDict(&OD, delete03);
     
- 	displayOpenDict(OD);
-	displayVHeap(VH);
+    
 
 /*------------------------------------------------------------------------------------
  * 	Problem #5 :: 1) Converts the Open Hash Dictionary into a Closed Hash Dictionary *
@@ -204,20 +192,13 @@ void displayCloseDict(closeDic CD);
  ************************************************************/
  void initVHeap(VHeap *V)
  {
- 	V->avail = 0;
- 	int i;
- 	for(i = 0; i<VH_SIZE -1; i++){
- 		V->VH_node[i].next = i+1;
- 		strcpy(V->VH_node[i].elem.prodID, "00000000");
-	}
- 	V->VH_node[i].next = -1;
- 	strcpy(V->VH_node[i].elem.prodID, "00000000");
+ 	
  }
 
 cursorSet initCursorSet(VHeap *VH)
 {
-	cursorSet ret = {-1, 0, VH};
-	return ret;    
+
+     
 }
 
 void displayVHeap(VHeap V)
@@ -236,10 +217,9 @@ void displayVHeap(VHeap V)
 	printf("\n%10s%10s%15s", "-----", "-------","----------");	
      
     //Write your code here 
-	for(i=0, j=-1; i<VH_SIZE; i++, j++){
-//	 	printf("\n\t%d \t\t %d",i, j);
-	 	printf("\n%10d%10s%15d", i, V.VH_node[i].elem.prodID,V.VH_node[i].next);	
-	}
+	 for(i=0, j=-1; i<VH_SIZE; i++, j++){
+	 	printf("\n\t%d \t\t %d",i, j);
+	 }
 	 
 
 	printf("\n\n"); system("Pause");
@@ -253,7 +233,6 @@ void displaySet(cursorSet A)
 	printf("\n\nDetails of the Set :: ");
 	printf("\n---------------------");
 	printf("\nNo. of elements ::  %d", A.count );      //Complete this code
-	printf("\nFirst index ::  %d", A.elemIndex );      //Added for debugging
 	printf("\n\n%-7s", "ID");
 	printf("%-12s","Choco Name");
 	printf("%-15s","Choco Weight");
@@ -261,16 +240,7 @@ void displaySet(cursorSet A)
 	printf("\n%-7s%-12s%-15s%-10s", "--", "----------", "------------", "-----------");
 
 	//Write your code here
-	int trav;
-	for(trav = A.elemIndex; 
-		trav != -1; 
-		trav = A.VHptr->VH_node[trav].next){
-		printf("\n%-7s%-12s%-15d%-10d", 
-			A.VHptr->VH_node[trav].elem.prodID, 
-			A.VHptr->VH_node[trav].elem.prodDesc.name, 
-			A.VHptr->VH_node[trav].elem.prodDesc.weight, 
-			trav);
-	}
+	 
 	 
 
 	printf("\n\n"); system("Pause");	
@@ -282,37 +252,13 @@ void displaySet(cursorSet A)
  ************************************************************/
 int mallocInVHeap(VHeap *VH)
 {
-	int ret = VH->avail;
-	if(VH->avail != -1){
-		VH->avail = VH->VH_node[ret].next;
-	}
-	return ret;
+ 
 }
 
 
 void insertSorted(cursorSet *A, product P)
 {
- 	int temp = mallocInVHeap(A->VHptr);
- 	if(temp != -1){
- 		//allocates new node
- 		A->VHptr->VH_node[temp].elem = P;
- 		
- 		//finds where to insert
- 		int* trav;
- 		for(trav = &(A->elemIndex);
-		 	*trav != -1
-			&& strcmp(A->VHptr->VH_node[*trav].elem.prodID, P.prodID) < 0  ;
-			trav = &(A->VHptr->VH_node[*trav].next) ){}
- 		
- 		if(strcmp(A->VHptr->VH_node[*trav].elem.prodID, P.prodID) != 0){
- 			A->VHptr->VH_node[temp].next = *trav;
-	 		*trav = temp;
-	 		
-	 		A->count++;
-		}
-		
-		displayVHeap(*(A->VHptr));
-	}
+ 	
 }
 
 void populateSet(cursorSet *A)
@@ -337,13 +283,10 @@ void populateSet(cursorSet *A)
 		              };
     //Inserts each element of the array to the cursor set
     //Write your code here!!
-    
-    int i;
-    for(i = 0; i< COUNT; i++){
-    	insertSorted(A, data[i]);
-	}
+   
+ 
+ 
 }
-
 
 
 
@@ -352,52 +295,18 @@ void populateSet(cursorSet *A)
  ************************************************************/
 int openHash(char * prodID)               
 { 
-    return (prodID[3] - '0')%OPEN_DSIZE;
+    
 }
 
 
 openDic initOpenDict(VHeap *VH)
 {
-	openDic ret;
-	int i;
-	for(i = 0; i<OPEN_DSIZE; i++){
-		ret.header[i] = -1;
-	}
-	ret.count = 0;
-	ret.dicVHptr = VH;
-	
-	return ret;
+ 
 }
 
 openDic convertToOpenDict(cursorSet *A)
 {
-	openDic ret = initOpenDict(A->VHptr);
-	
-	int TS = A->elemIndex; //trav set
-	int TSO; //trav set old
-	int* TD; //trav dict
-	int hash;
-	
-	while(TS != -1){
-		TSO = TS;
-		TS = A->VHptr->VH_node[TS].next;
-		
-		//insert at the end of the dict thingy
-		hash = openHash(A->VHptr->VH_node[TSO].elem.prodID);
-		A->VHptr->VH_node[TSO].next = -1;
-		
-		for(TD = &(ret.header[hash]); 
-			*TD != -1; 
-			TD = &(ret.dicVHptr->VH_node[*TD].next)){}
-		
-		*TD = TSO;
-		ret.count++;
-		
-		A->count = 0;
-		A->elemIndex = -1;
-	}
-	
-	return ret;
+	 
 }
 
 
@@ -415,16 +324,7 @@ void displayOpenDict(openDic D)
 	printf("\n%-7s%15s", "------","----------");
 	
 	//Write your code here
-	int TH; //trav head
-	int TL; // trav list
-	for(TH = 0; TH < OPEN_DSIZE; TH++){
-		for(TL = D.header[TH];
-			TL != -1;
-			TL = D.dicVHptr->VH_node[TL].next){
-			
-			printf("\n%-7d%15s", TH, D.dicVHptr->VH_node[TL].elem.prodID);
-		}
-	}
+	
 
     printf("\n\n"); system("Pause");	
 }
@@ -435,26 +335,12 @@ void displayOpenDict(openDic D)
  ************************************************************/
 void freeInVHeap(VHeap *VH, int ndx)
 {
-	VH->VH_node[ndx].next = VH->avail;
-	VH->avail = ndx;
+	 
 }
 
 void deleteDict(openDic *D, char *IDen)
 {
-	int hash = openHash(IDen);
-	
-	int* trav;
-	for(trav = &(D->header[hash]); 
-		*trav != -1
-		&& strcmp(D->dicVHptr->VH_node[*trav].elem.prodID, IDen) == 0;
-		trav = &(D->dicVHptr->VH_node[*trav].next)){}
-		
-	if(*trav != -1){
-		int temp = *trav;
-		*trav = D->dicVHptr->VH_node[*trav].next;
-		freeInVHeap(D->dicVHptr,temp);
-		D->count--;
-	}
+ 
 }
 
 
