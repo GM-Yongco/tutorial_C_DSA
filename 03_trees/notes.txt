@@ -1,0 +1,2 @@
+BST meaning is Binary Search Tree
+POT is a Partially Ordered Tree
