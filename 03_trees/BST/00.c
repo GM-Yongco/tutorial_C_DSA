@@ -6,7 +6,8 @@ Date            : ur my date uwu
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "LL1.h"
+//#include "LL1.h"
+#include "LL2.h"
 
 int main(){
 	separator("START");

@@ -99,8 +99,13 @@ void list_delete_elem(LIST* L, int I){
 	}else{//assume element is found here
 		LIST temp = *trav;
 	
-		//if has both
-		if((*trav)->left != NULL && (*trav)->right != NULL){
+		//if one child/no child
+		if((*trav)->left == NULL){
+			*trav = (*trav)->right;
+		}else if((*trav)->right == NULL){
+			*trav = (*trav)->left;
+		}else{
+			//if both children exist
 			//getting biggest of left(BOL)
 			LIST* BOL = &((*trav)->left);
 			while((*BOL)->right != NULL){
@@ -113,11 +118,6 @@ void list_delete_elem(LIST* L, int I){
 			(*BOL)->left = temp->left;		
 			(*BOL)->right = temp->right;
 			*BOL = tempL;					//correct old BOL connection
-			
-		}else if((*trav)->left != NULL){	//if has left
-			*trav = (*trav)->left;
-		}else if((*trav)->right != NULL){	//if has right
-			*trav = (*trav)->right;
 		}
 		free(temp);
 	}
