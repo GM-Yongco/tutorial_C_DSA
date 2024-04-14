@@ -8,9 +8,17 @@
 // =======================================================================
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
+// =======================================================================
 typedef enum{FALSE, TRUE}BOOLEAN;
+
+typedef struct node{
+	int data;
+	struct node* left;
+	struct node* right;
+}NODE, *LIST;
 
 // =======================================================================
 // MISC FUNCTIONS
@@ -37,3 +45,28 @@ void separator(char* message){
 // =======================================================================
 // CORE FUNCTIONS 1
 // =======================================================================
+
+void insert(SET* S, char c){
+	
+}
+void display_post_order(){
+	
+}
+void display_pre_order(){
+
+}
+void display_in_order(){
+	
+}
+
+
+// =======================================================================
+// CORE FUNCTIONS 2
+// =======================================================================
+
+BOOLEAN is_member(){
+	return FALSE;
+}
+void delete(){
+
+}
