@@ -1,2 +1,59 @@
 BST meaning is Binary Search Tree
 POT is a Partially Ordered Tree
+
+==================================================
+MISC SHITE
+==================================================
+
+height of leaf is 0
+depth of root is 0
+
+a node is an ancestor of itself
+a node is a descendant of itself
+
+==================================================
+POT SHITE
+==================================================
+
+kinds
+	max heap
+	min heap
+
+==================================================
+BST SHITE
+==================================================
+
+variation of a binary tree
+	Binary tree doesnt have the parent child sortig condition
+
+there are 3 wasy to display a binary tree
+	preorder
+	inorder
+	postorder
+
+if we use an expression tree, they are renamed to the following respectively
+	prefix
+	infix
+	postfix
+	
+note in deleting a node with 2 children
+	immediate successor		- the smolest of right
+	immediate predecessor	- the biggest of left
+
+AVL(Adelson-Valenski and Land) 
+	is the self balancing tree
+	basically a BST plus the rotations
+	kinds of rotations
+		LL rotations
+		RR rotations
+		LR rotations
+		RL rotations
+
+==================================================
+TIME COMPLEXITY
+==================================================
+
+searching(worst case)
+	AVL				- log(N)
+	complete BST	- log(N)
+	skewed BST		- N
