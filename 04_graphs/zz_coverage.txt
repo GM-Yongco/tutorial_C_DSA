@@ -13,9 +13,24 @@ Graph Algorithms
 		Dijkstra’s
 		Floyd’s
 		Warshall’s 
-	Traversals
+
+	Traversals:
 		Depth First Search (DFS)
 		Breadth First Search (BFS)
+
 	Minimum Cost Spanning Tree Algorithms
-		Prim’s
-		Kruskal’s
+		definition:
+			spanning tree of a 
+				connected
+					there is a path to every node
+					the graph isnt a forest
+				acyclic
+					graph that contains no cycles
+				undirected graph
+					non directed graph
+					edges have no direction
+				with the minimum possible sum of edge weights.
+					minimum sum of the weights of each edge
+		kinds:
+			Prim’s
+			Kruskal’s
