@@ -15,28 +15,18 @@
 
 int main(){
 	separator("START");
-	separator("INITIALIZE GRAPH");
-	GRAPH x = init_graph(8);
-
-	separator("ADDING EDGES");
-	add_edge(x, 0, 1, 1);
-	add_edge(x, 0, 2, 1);
-	add_edge(x, 0, 6, 1);
-	add_edge(x, 0, 7, 1);
-	add_edge(x, 1, 3, 1);
-	add_edge(x, 1, 4, 1);
-	add_edge(x, 2, 6, 1);
-	add_edge(x, 2, 7, 1);
-	add_edge(x, 3, 4, 1);
-	add_edge(x, 4, 5, 1);
-
-	separator("DISPLAYING EDGES");
-	display_edges(x);
 	
-	separator("TRAVERSAL DFS");
-	DFS(x, 0);
-	separator("TRAVERSAL BFS");
-	BFS(x, 0);
+	QUEUE Q  = init_queue();
+
+	enqueue(Q, 1, 0);
+	enqueue(Q, 2, 0);
+	enqueue(Q, 3, 0);
+	enqueue(Q, 1, 0);
+	enqueue(Q, 5, 0);
+
+	dequeue(Q);
+
+	display_queue(Q);
 
 	separator("END");
 	return 0;
