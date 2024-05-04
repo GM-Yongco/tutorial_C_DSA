@@ -193,14 +193,91 @@ void display_edges(GRAPH G){
 	}
 }
 
+int get_edge_weight(GRAPH G, int antecedent, int incident){
+	LIST trav;
+	int ret = INFINITE;
+	for(trav  = G.adj_list[antecedent]; 
+		trav != NULL &&
+		trav->incident < incident;
+		trav = trav->next){}
+	if(trav != NULL && trav->incident == incident){
+		ret = trav->weight;
+	}
+	return ret;
+}
+
 
 // =======================================================================
 // SHORTEST PATH ALGOS
 // =======================================================================
 
-void dijkstra();
-void floyd();
-void warshall();
+void dijkstra_loop(GRAPH G, int* min_distances, int antecedent){
+	LIST trav ;
+	for(trav = G.adj_list[antecedent]; 
+		trav != NULL;
+		trav = trav->next){
+		if((trav->weight + min_distances[antecedent]) < min_distances[trav->incident]){
+			min_distances[trav->incident] = trav->weight + min_distances[antecedent];
+			dijkstra_loop(G, min_distances, trav->incident);
+		}
+	}
+}
+
+void dijkstra(GRAPH G, int antecedent){
+	int min_distances[G.size];
+	int i;
+	
+	for(i = 0; i<G.size; i++){
+		min_distances[i] = INFINITE;
+	}
+	min_distances[antecedent] = 0;
+
+	dijkstra_loop(G, min_distances, antecedent);
+	for(i = 0; i<G.size; i++){
+		printf("node: %d = %d distance\n", i, min_distances[i]);
+	}
+}
+
+void floyd_warshal(GRAPH G){
+	int shortest_path[G.size][G.size];
+	int i, j, k;
+
+	//initializing a matrix
+	for(j = 0; j<G.size; j++){
+		for(i = 0; i<G.size; i++){
+			shortest_path[i][j] = INFINITE;
+		}
+	}
+	//copying the initial map
+	for(j = 0; j<G.size; j++){
+		for(i = 0; i<G.size; i++){
+			shortest_path[i][j] = get_edge_weight(G, i, j);
+		}
+	}
+	//setting self loop to distance 0
+	for(i = 0; i<G.size; i++){
+		shortest_path[i][i] = 0;
+	}
+
+	// flal doing its thing
+	for(k = 0; k<G.size; k++){
+		for(j = 0; j<G.size; j++){
+			for(i = 0; i<G.size; i++){
+				if(shortest_path[i][j] > shortest_path[i][k] + shortest_path[k][j]){
+					shortest_path[i][j] = shortest_path[i][k] + shortest_path[k][j];
+				}
+			}
+		}
+	}
+	//printing
+	for(i = 0; i<G.size; i++){
+		printf("antecedent: %d ->", i);
+		for(j = 0; j<G.size; j++){
+			printf("%d:%d, ", j, shortest_path[i][j]);
+		}
+		printf("\n");
+	}
+}
 
 // =======================================================================
 // TRAVERSALS
@@ -262,4 +339,99 @@ void BFS(GRAPH G, int top_antecedent){
 // =======================================================================
 // MINIMUM COST SPANNING TREE
 // =======================================================================
+
+BOOLEAN is_all_true(BOOLEAN* arr, int size){
+	int i;
+	for(i = 0; i<size && arr[i] != FALSE; i++){}
+	return(i == size)?(TRUE):(FALSE);
+}
+
+void prims(GRAPH G){
+	BOOLEAN in_tree[G.size];
+	memset(in_tree, FALSE, sizeof(BOOLEAN)*(G.size));
+	
+	int start_antecedent = 0;
+	in_tree[start_antecedent] = TRUE;
+
+	int smol_antecedent, smol_incedent, smol_weight;
+	int i, j;
+	
+	printf("start: %d", start_antecedent);
+
+	//until everything is part of the tree
+	while(is_all_true(in_tree, G.size) == FALSE){
+		smol_weight = INFINITE;
+		//go through those that ARE part of the tree
+		for(i = 0; i<G.size; i++){
+		if(in_tree[i] == TRUE){
+			//compare each to those that are not part of the tree
+			for(j = 0; j<G.size; j++){
+			if(in_tree[j] == FALSE){
+				if(get_edge_weight(G, i, j)< smol_weight){
+					smol_antecedent = i;
+					smol_incedent = j;
+					smol_weight = get_edge_weight(G, i, j);
+				}
+			}
+			}
+		}	
+		}
+		in_tree[smol_incedent] = TRUE;
+		printf(" -> (%d, %d)", smol_antecedent, smol_incedent);
+	}
+}
+
+BOOLEAN is_homogeneous(int* arr, int size){
+	int i;
+	int past_val = arr[0];
+	for(i = 1; i<size && arr[i] == past_val; i++){}
+	return (i == size)?(TRUE):(FALSE);
+}
+
+void kruskal(GRAPH G){
+	//find smallest edge
+	typedef struct EDGE{
+		int weight;
+		int antecedent;
+		int incident;
+	}EDGE;
+
+	EDGE smol = {INFINITE, 0, 0};
+	int i, j;
+
+	//forest categories
+	int in_tree[G.size];
+	for(i = 0; i<G.size; i++){
+		in_tree[i] = i;
+	}
+
+	LIST trav;
+	while(is_homogeneous(in_tree, G.size) == FALSE){
+		smol.weight = INFINITE;
+		//itterate through all the node combinations 
+		//but exclude those with the same tree category
+		for(i = 0; i<G.size; i++){
+			for(trav = G.adj_list[i]; 
+			trav != NULL;
+			trav = trav->next){
+				if((in_tree[i] != in_tree[trav->incident])
+					&& (smol.weight > trav->weight)){
+					smol.weight = trav->weight;
+					smol.antecedent = i;
+					smol.incident = trav->incident;
+				}
+			}
+		}
+		//insert in tree category properly
+		//changes the incident's category to the one of the antecedent
+		int smol_incident_val = in_tree[smol.incident];
+		for(i = 0; i<G.size; i++){
+			if(in_tree[i] == smol_incident_val){
+				in_tree[i] = in_tree[smol.antecedent];
+			}
+		}
+		//printing
+		printf("(%d -> %d: %d), " ,smol.antecedent, smol.incident, smol.weight );
+	}
+}
 
