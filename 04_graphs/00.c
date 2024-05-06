@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//#include "adjacency_list.h"
+// #include "adjacency_list.h"
 #include "adjacency_matrix.h"
 
 // =======================================================================
@@ -65,7 +65,7 @@ int main(){
 	display_edges(y);
 	
 	separator("SHORTEST PATH DIJKSTRAS");
-	dijkstra(x, 3);
+	dijkstra(x, 6);
 
 	separator("SHORTEST PATH FLAL");
 	floyd_warshal(x);
