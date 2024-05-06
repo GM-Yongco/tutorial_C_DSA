@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "adjacency_list.h"
+//#include "adjacency_list.h"
+#include "adjacency_matrix.h"
 
 // =======================================================================
 // MAIN
@@ -50,7 +51,6 @@ int main(){
 	add_edge(x, 6, 7, 4);
 	add_edge(x, 7, 6, 4);
 
-	separator("GRAPH 2");
 
 	add_edge(y, 0, 2, -2);
 	add_edge(y, 2, 3, 2);
@@ -60,6 +60,8 @@ int main(){
 
 	separator("DISPLAYING EDGES");
 	display_edges(x);
+
+	separator("GRAPH 2");
 	display_edges(y);
 	
 	separator("SHORTEST PATH DIJKSTRAS");
