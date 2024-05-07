@@ -178,8 +178,39 @@ typedef struct QUEUE{
 	int bot;//enqueue here
 }QUEUE;
 
-void BFS(GRAPH G, int antecedent){
+void BFS(GRAPH G, int antecedent){	
+	BOOLEAN traversed[G->size];
+	memset(traversed, FALSE, sizeof(BOOLEAN)*G->size);
 	
+	QUEUE Q;
+	
+	Q.arr = (int*)malloc(sizeof(int) * G->size);
+	Q.top = 0;
+	Q.bot = -1;
+	
+	//enqueue the antecedent
+	Q.arr[++Q.bot] = antecedent;
+	traversed[antecedent] = TRUE;
+	
+	int i;
+	while(Q.bot != (Q.top - 1)){
+		//itterate through all their incidents
+		for(i = 0; i< G->size; i++){
+		if(G->weight[Q.arr[Q.top]][i] != INFINITE){
+			//only traverse if it hasnt been traversed yet
+			if(traversed[i] == FALSE){
+				printf("(%d, %d)", Q.arr[Q.top], i);
+				//enque the children
+				Q.arr[++Q.bot] = i;
+				
+				//mark the childrn as traversed
+				traversed[i] = TRUE;	
+			}			
+		}
+		}
+		//dequeue the parent and mark is as
+		Q.top++;
+	}
 }
 
 // =======================================================================
